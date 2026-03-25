@@ -40,6 +40,18 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 gradient-bg-animated relative overflow-hidden">
+      {/* Go Back Button */}
+      <button
+        type="button"
+        onClick={() => navigate(-1)}
+        className="absolute top-6 left-6 z-50 flex items-center gap-2 text-white/70 hover:text-white transition-colors glass px-4 py-2 rounded-xl group"
+      >
+        <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        <span>Go Back</span>
+      </button>
+
       <div className="absolute top-10 right-20 w-80 h-80 bg-accent-500/15 rounded-full blur-3xl animate-float" />
       <div className="absolute bottom-10 left-10 w-64 h-64 bg-primary-400/15 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
 
