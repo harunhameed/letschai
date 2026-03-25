@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background-color: #020617;
+    color: #f1f5f9;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: rgba(124, 58, 237, 0.3);
+    color: #fff;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0f172a;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #7c3aed, #a855f7);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #6d28d9, #9333ea);
+  }
+}
+
+@layer components {
+  /* ─── Glass Effects ─── */
+  .glass {
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(20px) saturate(1.2);
+    -webkit-backdrop-filter: blur(20px) saturate(1.2);
+    border: 1px solid rgba(148, 163, 184, 0.08);
+  }
+
+  .glass-light {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .glass-card {
+    @apply glass rounded-2xl p-5 shadow-glass transition-all duration-300;
+  }
+
+  .glass-card:hover {
+    @apply shadow-glass-lg;
+    background: rgba(15, 23, 42, 0.8);
+    border-color: rgba(124, 58, 237, 0.15);
+  }
+
+  /* ─── Buttons ─── */
+  .btn-primary {
+    @apply bg-primary-500 text-white font-semibold py-3 px-6 rounded-xl
+           transition-all duration-300 ease-out
+           hover:bg-primary-600 hover:shadow-glow hover:-translate-y-0.5
+           active:scale-[0.97] active:translate-y-0
+           disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0;
+  }
+
+  .btn-secondary {
+    @apply bg-dark-800/80 text-dark-200 font-semibold py-3 px-6 rounded-xl
+           border border-dark-600/50 transition-all duration-300 ease-out
+           hover:bg-dark-700 hover:border-primary-500/20 hover:-translate-y-0.5
+           active:scale-[0.97] active:translate-y-0;
+  }
+
+  .btn-accent {
+    @apply bg-accent-500 text-dark-900 font-bold py-3 px-6 rounded-xl
+           transition-all duration-300 ease-out
+           hover:bg-accent-400 hover:shadow-glow-accent hover:-translate-y-0.5
+           active:scale-[0.97] active:translate-y-0;
+  }
+
+  /* ─── Inputs ─── */
+  .input-field {
+    @apply w-full bg-dark-900/60 border border-dark-700/60 rounded-xl px-4 py-3.5
+           text-dark-100 placeholder-dark-500 font-outfit text-sm
+           transition-all duration-300
+           focus:outline-none focus:border-primary-500/50 focus:ring-2 focus:ring-primary-500/15
+           focus:bg-dark-900/80;
+  }
+
+  /* ─── Typography ─── */
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-400 via-purple-400 to-accent-400;
+  }
+
+  /* ─── Backgrounds ─── */
+  .gradient-bg {
+    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 30%, #6d28d9 70%, #4c1d95 100%);
+  }
+
+  .gradient-bg-animated {
+    background: linear-gradient(135deg, #7c3aed, #a855f7, #ec4899, #f59e0b, #7c3aed);
+    background-size: 400% 400%;
+    animation: gradient-shift 12s ease infinite;
+  }
+
+  /* ─── Layout ─── */
+  .page-container {
+    @apply min-h-screen px-6 lg:px-8 py-8;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* ─── UI Elements ─── */
+  .badge {
+    @apply inline-flex items-center justify-center min-w-[20px] h-5 px-1.5
+           bg-accent-500 text-dark-900 text-xs font-bold rounded-full;
+  }
+
+  .chip {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
+           bg-primary-500/10 text-primary-300 border border-primary-500/15;
+  }
+
+  .skeleton {
+    @apply bg-dark-800/50 rounded-xl animate-pulse;
+  }
+
+  .divider {
+    @apply w-full h-px bg-dark-800;
+  }
+
+  /* ─── Section Headers ─── */
+  .section-header {
+    @apply text-2xl lg:text-3xl font-bold mb-8;
+  }
+}
+
+/* ─── Keyframes ─── */
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes spin-wheel {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(1800deg); }
+}
+
+.spin-animation {
+  animation: spin-wheel 3s cubic-bezier(0.17, 0.67, 0.12, 0.99) forwards;
+}
+
+/* ─── Utility: line clamp ─── */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
