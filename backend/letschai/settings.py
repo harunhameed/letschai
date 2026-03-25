@@ -8,6 +8,13 @@ from pathlib import Path
 from dotenv import load_dotenv
 import dj_database_url
 
+
+import logging
+import sqlparse
+from pygments import highlight
+from pygments.lexers import SqlLexer
+from pygments.formatters import TerminalTrueColorFormatter
+
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -114,3 +121,43 @@ MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+class BeautifulSQLFormatter(logging.Formatter):
+    def format(self, record):
+        # Only format if it's an actual SQL query string
+        if hasattr(record, 'sql'):
+            sql = record.sql
+        else:
+            sql = record.getMessage()
+            
+        # Format the SQL to be multi-line and highly readable
+        formatted_sql = sqlparse.format(sql, reindent=True, keyword_case='upper')
+        
+        # Add beautiful syntax highlighting for the terminal
+        colored_sql = highlight(formatted_sql, SqlLexer(), TerminalTrueColorFormatter(style='monokai'))
+        
+        return f"\n\033[95m[LetsChai DB Execution]\033[0m\n{colored_sql}"
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'beautiful_sql': {
+            '()': BeautifulSQLFormatter, 
+        },
+    },
+    'handlers': {
+        'console_sql': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'beautiful_sql',
+        },
+    },
+    'loggers': {
+        'django.db.backends': {
+            'handlers': ['console_sql'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}
