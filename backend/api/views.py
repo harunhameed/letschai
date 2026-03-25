@@ -6,6 +6,9 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+import django_filters
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 
 from .models import Post, Connection, Club, ClubPost
 from .serializers import (
@@ -175,22 +178,30 @@ def my_connections(request):
 #  SEARCH
 # ═══════════════════════════════════════════
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def search_users(request):
-    """Search users by name or username."""
-    query = request.GET.get('q', '').strip()
-    if not query:
-        return Response([])
+class UserFilter(django_filters.FilterSet):
+    q = django_filters.CharFilter(method='filter_q')
+    branch_name = django_filters.CharFilter(field_name='branch__name', lookup_expr='icontains')
+    batch_year = django_filters.NumberFilter(field_name='batch__year')
 
-    users = User.objects.filter(
-        Q(username__icontains=query) |
-        Q(first_name__icontains=query) |
-        Q(last_name__icontains=query) |
-        Q(department__icontains=query)
-    ).exclude(id=request.user.id)[:20]
+    class Meta:
+        model = User
+        fields = ['branch', 'batch', 'is_authorized', 'daily_spin_count', 'dob', 'branch_name', 'batch_year']
 
-    return Response(UserSerializer(users, many=True).data)
+    def filter_q(self, queryset, name, value):
+        return queryset.filter(
+            Q(username__icontains=value) |
+            Q(first_name__icontains=value) |
+            Q(last_name__icontains=value)
+        )
+
+class UserSearchView(generics.ListAPIView):
+    """Search and comprehensively filter users based on every aspect."""
+    serializer_class = UserSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_class = UserFilter
+
+    def get_queryset(self):
+        return User.objects.exclude(id=self.request.user.id)
 
 
 # ═══════════════════════════════════════════
@@ -248,3 +259,22 @@ def club_posts(request, club_id):
     """List posts in a club."""
     posts = ClubPost.objects.filter(club_id=club_id).select_related('author')
     return Response(ClubPostSerializer(posts, many=True).data)
+
+
+# ═══════════════════════════════════════════
+#  STATS
+# ═══════════════════════════════════════════
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def landing_stats(request):
+    """Public stats for landing page."""
+    students = User.objects.filter(is_superuser=False).count()
+    clubs = Club.objects.count()
+    connections = Connection.objects.filter(status='accepted').count()
+    
+    return Response({
+        'students': students,
+        'clubs': clubs,
+        'connections': connections,
+    })

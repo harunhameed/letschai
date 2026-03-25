@@ -54,7 +54,17 @@ export const getPendingRequests = () => api.get('/connections/pending/');
 export const getMyConnections = () => api.get('/connections/');
 
 // ─── Search ───
-export const searchUsers = (query) => api.get(`/search/?q=${encodeURIComponent(query)}`);
+export const searchUsers = (params) => {
+  const qs = new URLSearchParams();
+  if (params.q) qs.append('q', params.q);
+  if (params.branch_name) qs.append('branch_name', params.branch_name);
+  if (params.batch_year) qs.append('batch_year', params.batch_year);
+  if (params.is_authorized !== undefined && params.is_authorized !== '') qs.append('is_authorized', params.is_authorized);
+  return api.get(`/search/?${qs.toString()}`);
+};
+
+// ─── Stats ───
+export const getStats = () => api.get('/stats/');
 
 // ─── Spin ───
 export const spinWheel = () => api.post('/spin/');

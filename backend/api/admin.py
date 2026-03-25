@@ -7,9 +7,9 @@ User = get_user_model()
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['username', 'first_name', 'last_name', 'department', 'year', 'is_staff']
-    search_fields = ['username', 'first_name', 'last_name', 'department']
-    list_filter = ['department', 'year', 'is_staff']
+    list_display = ['username', 'first_name', 'last_name', 'branch', 'batch', 'is_staff']
+    search_fields = ['username', 'first_name', 'last_name', 'branch__name']
+    list_filter = ['branch', 'batch', 'is_staff']
 
 
 @admin.register(Post)

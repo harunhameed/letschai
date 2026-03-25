@@ -1,4 +1,6 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { getStats } from '../api';
 
 const features = [
   {
@@ -23,15 +25,38 @@ const features = [
   },
 ];
 
-const stats = [
-  { value: '500+', label: 'Students' },
-  { value: '50+', label: 'Clubs' },
-  { value: '1K+', label: 'Connections' },
-  { value: '24/7', label: 'Active' },
-];
-
 export default function HomePage() {
   const isLoggedIn = !!localStorage.getItem('token');
+  const [dynamicStats, setDynamicStats] = useState({
+    students: '500+',
+    clubs: '50+',
+    connections: '1K+',
+    active: '24/7'
+  });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const res = await getStats();
+        setDynamicStats({
+          students: `${res.data.students}+`,
+          clubs: `${res.data.clubs}+`,
+          connections: `${res.data.connections}+`,
+          active: '24/7'
+        });
+      } catch (err) {
+        console.error('Failed to fetch stats:', err);
+      }
+    };
+    fetchStats();
+  }, []);
+
+  const stats = [
+    { value: dynamicStats.students, label: 'Students' },
+    { value: dynamicStats.clubs, label: 'Clubs' },
+    { value: dynamicStats.connections, label: 'Connections' },
+    { value: dynamicStats.active, label: 'Active' },
+  ];
 
   return (
     <div className="min-h-screen">

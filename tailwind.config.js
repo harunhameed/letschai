@@ -11,28 +11,28 @@ export default {
       },
       colors: {
         primary: {
-          50:  '#f3f0ff',
-          100: '#e9e3ff',
-          200: '#d4c9ff',
-          300: '#b5a0ff',
-          400: '#9171ff',
-          500: '#7c3aed',
-          600: '#6d28d9',
-          700: '#5b21b6',
-          800: '#4c1d95',
-          900: '#3b0764',
+          50:  '#f5eee9',
+          100: '#ead7c9',
+          200: '#dcb89f',
+          300: '#c99370',
+          400: '#a77e58', // base requested
+          500: '#946a48',
+          600: '#754f34',
+          700: '#63402e',
+          800: '#582f0e', // dark requested
+          900: '#46240d',
         },
         accent: {
-          50:  '#fffbeb',
-          100: '#fef3c7',
-          200: '#fde68a',
-          300: '#fcd34d',
-          400: '#fbbf24',
-          500: '#f59e0b',
-          600: '#d97706',
-          700: '#b45309',
-          800: '#92400e',
-          900: '#78350f',
+          50:  '#fdf9f4',
+          100: '#f9eee3',
+          200: '#efd5bd',
+          300: '#e5b690',
+          400: '#d59461',
+          500: '#a77e58', // using primary as accent as well safely
+          600: '#754823',
+          700: '#582f0e', // using the dark requested
+          800: '#4f2b16',
+          900: '#422415',
         },
         dark: {
           50:  '#f8fafc',
@@ -50,13 +50,13 @@ export default {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-mesh': 'linear-gradient(135deg, #7c3aed 0%, #a855f7 25%, #6d28d9 50%, #7c3aed 75%, #9333ea 100%)',
+        'gradient-mesh': 'linear-gradient(135deg, #a77e58 0%, #946a48 25%, #582f0e 50%, #a77e58 75%, #ca8a04 100%)',
       },
       boxShadow: {
-        'glass': '0 8px 32px 0 rgba(124, 58, 237, 0.15)',
-        'glass-lg': '0 16px 48px 0 rgba(124, 58, 237, 0.2)',
-        'glow': '0 0 20px rgba(124, 58, 237, 0.3)',
-        'glow-accent': '0 0 20px rgba(251, 191, 36, 0.3)',
+        'glass': '0 8px 32px 0 rgba(167, 126, 88, 0.15)',
+        'glass-lg': '0 16px 48px 0 rgba(167, 126, 88, 0.2)',
+        'glow': '0 0 20px rgba(167, 126, 88, 0.3)',
+        'glow-accent': '0 0 20px rgba(88, 47, 14, 0.3)',
       },
       animation: {
         'spin-slow': 'spin 3s linear infinite',
@@ -70,8 +70,8 @@ export default {
       },
       keyframes: {
         'pulse-glow': {
-          '0%, 100%': { opacity: 1, boxShadow: '0 0 20px rgba(124, 58, 237, 0.3)' },
-          '50%': { opacity: 0.85, boxShadow: '0 0 40px rgba(124, 58, 237, 0.5)' },
+          '0%, 100%': { opacity: 1, boxShadow: '0 0 20px rgba(167, 126, 88, 0.3)' },
+          '50%': { opacity: 0.85, boxShadow: '0 0 40px rgba(167, 126, 88, 0.5)' },
         },
         'float': {
           '0%, 100%': { transform: 'translateY(0px)' },

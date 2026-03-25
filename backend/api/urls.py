@@ -20,7 +20,10 @@ urlpatterns = [
     path('connections/', views.my_connections, name='my-connections'),
 
     # Search
-    path('search/', views.search_users, name='search-users'),
+    path('search/', views.UserSearchView.as_view(), name='search-users'),
+
+    # Stats
+    path('stats/', views.landing_stats, name='landing-stats'),
 
     # Spin
     path('spin/', views.spin_view, name='spin'),
